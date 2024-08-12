@@ -11,7 +11,7 @@ main() {
     dbt deps --project-dir "${TOP_DIR}/dbt/warehouse"
 
     # Lint SQL
-    sqlfluff fix -f "${TOP_DIR}"/dbt/warehouse/models/marts
+    sqlfluff fix -f "${TOP_DIR}/dbt/warehouse/models/marts"
 
     # If the linter produce diffs, fail the linter
     if [ -z "$(git status --porcelain)" ]; then 
