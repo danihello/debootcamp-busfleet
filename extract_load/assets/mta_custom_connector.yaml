@@ -1,0 +1,307 @@
+version: 3.9.6
+
+type: DeclarativeSource
+
+check:
+  type: CheckStream
+  stream_names:
+    - vehicle_monitoring
+
+definitions:
+  streams:
+    vehicle_monitoring:
+      type: DeclarativeStream
+      name: vehicle_monitoring
+      retriever:
+        type: SimpleRetriever
+        requester:
+          $ref: '#/definitions/base_requester'
+          path: vehicle-monitoring.json
+          http_method: GET
+          request_parameters:
+            version: '1'
+            LineRef: '{{ stream_partition.line_ref }}'
+            VehicleMonitoringDetailLevel: normal
+        record_selector:
+          type: RecordSelector
+          extractor:
+            type: DpathExtractor
+            field_path:
+              - Siri
+              - ServiceDelivery
+              - VehicleMonitoringDelivery
+              - '0'
+              - VehicleActivity
+        partition_router:
+          type: ListPartitionRouter
+          values:
+            - M21
+            - M31
+            - M5
+            - M1
+            - M55
+            - M10
+            - M7
+          cursor_field: line_ref
+      primary_key:
+        - RecordedAtTime
+      schema_loader:
+        type: InlineSchemaLoader
+        schema:
+          $ref: '#/schemas/vehicle_monitoring'
+      incremental_sync:
+        type: DatetimeBasedCursor
+        cursor_field: RecordedAtTime
+        is_data_feed: true
+        start_datetime:
+          type: MinMaxDatetime
+          datetime: '{{ config["start_date"] }}'
+          datetime_format: '%Y-%m-%dT%H:%M:%SZ'
+        datetime_format: '%Y-%m-%dT%H:%M:%S.%f%z'
+        cursor_datetime_formats:
+          - '%Y-%m-%dT%H:%M:%S.%f%z'
+  base_requester:
+    type: HttpRequester
+    url_base: https://bustime.mta.info/api/siri/
+    authenticator:
+      type: ApiKeyAuthenticator
+      api_token: '{{ config["api_key"] }}'
+      inject_into:
+        type: RequestOption
+        field_name: key
+        inject_into: request_parameter
+
+streams:
+  - $ref: '#/definitions/streams/vehicle_monitoring'
+
+spec:
+  type: Spec
+  connection_specification:
+    type: object
+    $schema: http://json-schema.org/draft-07/schema#
+    required:
+      - api_key
+      - start_date
+    properties:
+      api_key:
+        type: string
+        order: 0
+        title: API Key
+        airbyte_secret: true
+      start_date:
+        type: string
+        order: 1
+        title: start_date
+    additionalProperties: true
+
+metadata:
+  testedStreams:
+    vehicle_monitoring:
+      hasRecords: false
+      streamHash: 7b0b70fa4280afe57d6db17ea3d2f29b6446817b
+      hasResponse: true
+      primaryKeysAreUnique: true
+      primaryKeysArePresent: true
+      responsesAreSuccessful: true
+  autoImportSchema:
+    vehicle_monitoring: true
+
+schemas:
+  vehicle_monitoring:
+    type: object
+    $schema: http://json-schema.org/schema#
+    required:
+      - RecordedAtTime
+    properties:
+      RecordedAtTime:
+        type: string
+      MonitoredVehicleJourney:
+        type:
+          - object
+          - 'null'
+        properties:
+          Bearing:
+            type:
+              - number
+              - 'null'
+          LineRef:
+            type:
+              - string
+              - 'null'
+          BlockRef:
+            type:
+              - string
+              - 'null'
+          Monitored:
+            type:
+              - boolean
+              - 'null'
+          Occupancy:
+            type:
+              - string
+              - 'null'
+          OriginRef:
+            type:
+              - string
+              - 'null'
+          VehicleRef:
+            type:
+              - string
+              - 'null'
+          OnwardCalls:
+            type:
+              - object
+              - 'null'
+          OperatorRef:
+            type:
+              - string
+              - 'null'
+          DirectionRef:
+            type:
+              - string
+              - 'null'
+          ProgressRate:
+            type:
+              - string
+              - 'null'
+          SituationRef:
+            type:
+              - array
+              - 'null'
+            items:
+              type:
+                - object
+                - 'null'
+              properties:
+                SituationSimpleRef:
+                  type:
+                    - string
+                    - 'null'
+          MonitoredCall:
+            type:
+              - object
+              - 'null'
+            properties:
+              Extensions:
+                type:
+                  - object
+                  - 'null'
+                properties:
+                  Distances:
+                    type:
+                      - object
+                      - 'null'
+                    properties:
+                      StopsFromCall:
+                        type:
+                          - number
+                          - 'null'
+                      DistanceFromCall:
+                        type:
+                          - number
+                          - 'null'
+                      PresentableDistance:
+                        type:
+                          - string
+                          - 'null'
+                      CallDistanceAlongRoute:
+                        type:
+                          - number
+                          - 'null'
+                  Capacities:
+                    type:
+                      - object
+                      - 'null'
+                    properties:
+                      EstimatedPassengerCount:
+                        type:
+                          - number
+                          - 'null'
+                      EstimatedPassengerCapacity:
+                        type:
+                          - number
+                          - 'null'
+                  VehicleFeatures:
+                    type:
+                      - object
+                      - 'null'
+                    properties:
+                      StrollerVehicle:
+                        type:
+                          - boolean
+                          - 'null'
+              VisitNumber:
+                type:
+                  - number
+                  - 'null'
+              StopPointRef:
+                type:
+                  - string
+                  - 'null'
+              StopPointName:
+                type:
+                  - string
+                  - 'null'
+              AimedArrivalTime:
+                type:
+                  - string
+                  - 'null'
+              AimedDepartureTime:
+                type:
+                  - string
+                  - 'null'
+              ExpectedArrivalTime:
+                type:
+                  - string
+                  - 'null'
+              ExpectedDepartureTime:
+                type:
+                  - string
+                  - 'null'
+          ProgressStatus:
+            type:
+              - string
+              - 'null'
+          DestinationName:
+            type:
+              - string
+              - 'null'
+          VehicleLocation:
+            type:
+              - object
+              - 'null'
+            properties:
+              Latitude:
+                type:
+                  - number
+                  - 'null'
+              Longitude:
+                type:
+                  - number
+                  - 'null'
+          JourneyPatternRef:
+            type:
+              - string
+              - 'null'
+          PublishedLineName:
+            type:
+              - string
+              - 'null'
+          FramedVehicleJourneyRef:
+            type:
+              - object
+              - 'null'
+            properties:
+              DataFrameRef:
+                type:
+                  - string
+                  - 'null'
+              DatedVehicleJourneyRef:
+                type:
+                  - string
+                  - 'null'
+          OriginAimedDepartureTime:
+            type:
+              - string
+              - 'null'
+    additionalProperties: true
