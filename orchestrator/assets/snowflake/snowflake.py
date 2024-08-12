@@ -1,11 +1,22 @@
 import os
 from dagster_snowflake import SnowflakeResource
-from dagster import EnvVar, asset, MaterializeResult, AutoMaterializePolicy, AutomationCondition
+from dagster import (
+    EnvVar,
+    asset,
+    MaterializeResult,
+    AutoMaterializePolicy,
+    AutomationCondition,
+)
 from orchestrator.policies import retry_policy
 
 
-#do context.log.info(f"raw_calendar")
-@asset(group_name="s3_copy_into_snowflake",description="Raw calendar data",tags={"storage": "s3"},compute_kind="Snowflake")
+# do context.log.info(f"raw_calendar")
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw calendar data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_calendar(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""
@@ -43,7 +54,13 @@ def raw_calendar(snowflake: SnowflakeResource):
             #     metadata={"name": "query", "value": query},
             # )
 
-@asset(group_name="s3_copy_into_snowflake", description="Raw agency data",tags={"storage": "s3"},compute_kind="Snowflake")
+
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw agency data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_agency(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""
@@ -75,7 +92,13 @@ def raw_agency(snowflake: SnowflakeResource):
         for query in queries:
             conn.cursor().execute(query)
 
-@asset(group_name="s3_copy_into_snowflake", description="Raw calendar dates data",tags={"storage": "s3"},compute_kind="Snowflake")
+
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw calendar dates data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_calendar_dates(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""
@@ -104,7 +127,13 @@ def raw_calendar_dates(snowflake: SnowflakeResource):
         for query in queries:
             conn.cursor().execute(query)
 
-@asset(group_name="s3_copy_into_snowflake", description="Raw shapes data",tags={"storage": "s3"},compute_kind="Snowflake")
+
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw shapes data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_shapes(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""
@@ -134,7 +163,13 @@ def raw_shapes(snowflake: SnowflakeResource):
         for query in queries:
             conn.cursor().execute(query)
 
-@asset(group_name="s3_copy_into_snowflake", description="Raw stop times data",tags={"storage": "s3"},compute_kind="Snowflake")
+
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw stop times data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_stop_times(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""
@@ -168,7 +203,13 @@ def raw_stop_times(snowflake: SnowflakeResource):
         for query in queries:
             conn.cursor().execute(query)
 
-@asset(group_name="s3_copy_into_snowflake", description="Raw stops data",tags={"storage": "s3"},compute_kind="Snowflake")
+
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw stops data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_stops(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""
@@ -203,7 +244,13 @@ def raw_stops(snowflake: SnowflakeResource):
         for query in queries:
             conn.cursor().execute(query)
 
-@asset(group_name="s3_copy_into_snowflake", description="Raw trips data",tags={"storage": "s3"},compute_kind="Snowflake")
+
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw trips data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_trips(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""
@@ -236,7 +283,13 @@ def raw_trips(snowflake: SnowflakeResource):
         for query in queries:
             conn.cursor().execute(query)
 
-@asset(group_name="s3_copy_into_snowflake", description="Raw routes data",tags={"storage": "s3"},compute_kind="Snowflake")
+
+@asset(
+    group_name="s3_copy_into_snowflake",
+    description="Raw routes data",
+    tags={"storage": "s3"},
+    compute_kind="Snowflake",
+)
 def raw_routes(snowflake: SnowflakeResource):
     s3_url = os.getenv("S3_URL")
     create_raw_stage_query = f"""

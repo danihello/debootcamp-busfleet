@@ -6,5 +6,5 @@ from orchestrator.resources import airbyte_resource
 airbyte_assets = load_assets_from_airbyte_instance(
     airbyte_resource,
     connection_filter=lambda meta: "snowflake" in meta.name,
-    connection_to_auto_materialize_policy_fn=lambda _: AutoMaterializePolicy.eager()
+    connection_to_auto_materialize_policy_fn=lambda _: AutoMaterializePolicy.eager(),
 )

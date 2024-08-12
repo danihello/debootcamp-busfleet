@@ -1,6 +1,16 @@
-from dagster import Definitions,EnvVar, load_assets_from_modules, load_assets_from_package_module, AutoMaterializePolicy
+from dagster import (
+    Definitions,
+    EnvVar,
+    load_assets_from_modules,
+    load_assets_from_package_module,
+    AutoMaterializePolicy,
+)
 from orchestrator.assets.airbyte.airbyte import airbyte_assets
-from orchestrator.resources import airbyte_resource, snowflake_resource, PostgresDatabaseResource
+from orchestrator.resources import (
+    airbyte_resource,
+    snowflake_resource,
+    PostgresDatabaseResource,
+)
 from orchestrator.assets.dbt.dbt import fleet_dbt_assets, dbt_warehouse_resource
 from orchestrator.assets import snowflake
 from orchestrator.jobs import run_pipeline
