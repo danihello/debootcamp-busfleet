@@ -30,3 +30,18 @@ warehouse:
       schema: '{{ env_var("SNOWFLAKE_SCHEMA") }}'
       threads: 12
       client_session_keep_alive: False
+
+    ci:
+      type: snowflake
+      account: 'ci_account'
+
+      # User/password auth
+      user: 'ci_user'
+      password: 'ci_password'
+
+      role: 'ci_role'
+      database: 'ci_db'
+      warehouse: 'ci_warehouse'
+      schema: 'ci_schema'
+      threads: 12
+      client_session_keep_alive: False
