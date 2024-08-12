@@ -9,7 +9,7 @@
  * - block_id: The identifier for the block the trip belongs to.
  * - shape_id: The identifier for the shape the trip follows.
  */
-select 
+select
     trip_id,
     route_id,
     service_id,

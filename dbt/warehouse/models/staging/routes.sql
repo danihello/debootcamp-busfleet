@@ -8,7 +8,7 @@
  * - route_desc: A description of the route.
  * - route_color: The color associated with the route, represented as a hexadecimal value.
  */
-select 
+select
     route_id,
     agency_id,
     route_short_name,
