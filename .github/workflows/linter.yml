@@ -15,7 +15,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           set-safe-directory: true
-      
+
+      # https://github.com/actions/runner/issues/2033#issuecomment-1204205989
       - name: Set ownership
         run: |
           # this is to fix GIT not liking owner of the checkout dir
@@ -29,9 +30,8 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r ./requirements.txt
 
       - name: Run linting checks. Exit code 1 if linter failed
         run: |
           bash ./.github/bin/linter.sh
-          
