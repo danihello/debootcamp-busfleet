@@ -35,3 +35,4 @@ jobs:
       - name: Run linting checks. Exit code 1 if linter failed
         run: |
           bash ./.github/bin/linter.sh
+          
