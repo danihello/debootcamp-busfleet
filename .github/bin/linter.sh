@@ -8,7 +8,7 @@ main() {
     black "${TOP_DIR}"
 
     # Setup dbt
-    dbt deps --project-dir "${TOP_DIR}/dbt/warehouse"
+    #dbt deps --project-dir "${TOP_DIR}/dbt/warehouse"
 
     # Lint SQL
 
