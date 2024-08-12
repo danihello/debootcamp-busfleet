@@ -3,3 +3,4 @@ sqlfluff==2.3.2
 dbt-core==1.7.2
 dbt-snowflake==1.7.2
 sqlfluff-templater-dbt==2.3.2
+protobuf==4.25.3
