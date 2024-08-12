@@ -8,7 +8,7 @@
  * - agency_lang: The primary language used by the agency.
  * - agency_phone: The phone number for the agency.
  */
-select 
+select
     agency_id,
     agency_name,
     agency_url,

@@ -24,9 +24,9 @@ select
     trip_date,
     trip_start_datetime,
     trip_end_datetime,
-    datediff(second,trip_start_datetime, trip_end_datetime) as trip_duration_seconds,
+    datediff(second, trip_start_datetime, trip_end_datetime) as trip_duration_seconds,
     distance_traveled,
-    distance_traveled * 3.6 / datediff(second,trip_start_datetime, trip_end_datetime) as trip_speed_kmh,
+    distance_traveled * 3.6 / datediff(second, trip_start_datetime, trip_end_datetime) as trip_speed_kmh,
     trip_avg_psngr_count,
     trip_max_psngr_capacity,
     vehicle_id,
@@ -39,9 +39,10 @@ select
     direction_id,
     agency_id
 
-from {{ref('api_trips')}} as trips
-where datediff(second,trip_start_datetime, trip_end_datetime) > 60
-and distance_traveled * 3.6 / datediff(second,trip_start_datetime, trip_end_datetime) < 100
-{% if is_incremental() %}
-and trip_start_datetime > (select max(trip_end_datetime) from {{this}})
-{% endif %}
+from {{ ref('api_trips') }}
+where
+    datediff(second, trip_start_datetime, trip_end_datetime) > 60
+    and distance_traveled * 3.6 / datediff(second, trip_start_datetime, trip_end_datetime) < 100
+    {% if is_incremental() %}
+        and trip_start_datetime > (select max(trip_end_datetime) from {{ this }})
+    {% endif %}
