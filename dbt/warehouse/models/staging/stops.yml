@@ -1,0 +1,12 @@
+verison: 2
+
+models:
+  - name: stops
+    description: The stops table contains information about the stops in the GTFS feed.
+    columns:
+      - name: stop_id
+        description: The stop_id field contains an ID that uniquely identifies a stop or station.
+        tests:
+          - not_null
+          - unique
+          

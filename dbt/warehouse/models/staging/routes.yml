@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: routes
+    description: The routes table contains information about the routes in the GTFS feed.
+    columns:
+      - name: route_id
+        description: The route_id field contains an ID that identifies a route.
+        tests:
+          - not_null
+          - unique
