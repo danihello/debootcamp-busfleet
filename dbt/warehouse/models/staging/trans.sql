@@ -27,7 +27,9 @@ with raw_trans as (
         to_timestamp(recordedattime) as recorded_datetime,
         replace(vehicleref, operatorref || '_', '') as vehicle_id,
         replace(stoppointref, 'MTA_', '') as current_stop_id,
-        case when coalesce(lag(datedvehiclejourneyref) over (partition by vehicleref order by recordedattime), '') != datedvehiclejourneyref
+        case
+            when
+                coalesce(lag(datedvehiclejourneyref) over (partition by vehicleref order by recordedattime), '') != datedvehiclejourneyref
                 and lead(datedvehiclejourneyref) over (partition by vehicleref order by recordedattime) != datedvehiclejourneyref
                 then 1
             else 0
@@ -39,7 +41,8 @@ with raw_trans as (
     inner join {{ this.schema }}.last_trip_date_per_bus as last_trip_date_per_bus
         on last_trip_date_per_bus.vehicle_id = replace(vehicleref, operatorref || '_', '')
     {% endif %}
-    where progressrate not in ('noProgress')
+    where
+        progressrate not in ('noProgress')
         {% if is_incremental() %}
             and to_timestamp(recordedattime) > max_end_date
         {% endif %}
@@ -49,15 +52,18 @@ stg_trips as (
     select
         *,
         vehicle_id || '-' || recorded_datetime as trans_id,
-        case when lag(trip_id) over (partition by vehicle_id order by recorded_datetime) != trip_id then 1
+        case
+            when lag(trip_id) over (partition by vehicle_id order by recorded_datetime) != trip_id then 1
             when lag(trip_id) over (partition by vehicle_id order by recorded_datetime) is null then 1
             else 0
         end as trip_start,
-        case when lead(trip_id) over (partition by vehicle_id order by recorded_datetime) != trip_id then 1
+        case
+            when lead(trip_id) over (partition by vehicle_id order by recorded_datetime) != trip_id then 1
             else 0
         end as trip_end
     from raw_trans
-    where bad_trans = 0
+    where
+        bad_trans = 0
         and rnk = 1
 ),
 

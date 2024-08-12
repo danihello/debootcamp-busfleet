@@ -16,4 +16,4 @@ select
 
 from {{ ref('stop_times') }} as stop_times
 inner join {{ ref('dim_trips') }} as dim_trips
-on stop_times.trip_id = dim_trips.original_trip_id
+    on stop_times.trip_id = dim_trips.original_trip_id
