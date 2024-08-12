@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stop_times
+    description: The stop_times table contains information about the scheduled departure times from each stop on a given trip
+    columns:
+      - name: trip_id
+        description: The trip_id field contains an ID that identifies a trip.
+        tests:
+          - not_null
+      - name: stop_sequence
+        description: The stop_sequence field contains the stop sequence of the stop. The values for stop_sequence must be non-negative integers, and they must increase along the trip.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_increasing:
+              name: stop_sequence_is_increasing
+              sort_column: estimated_arrival_time
+              strictly: true # (Optional for comparison operator. Default is 'true', and it uses '>'. If set to 'false' it uses '>='.)
+              group_by: [trip_id] # (Optional)
+          - dbt_expectations.expect_column_values_to_be_between:
+              name: stop_sequence_greater_then_0
+              min_value: 0

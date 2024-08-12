@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: agency
+    description: The agency table contains information about the transit agency that operates a given route.
+    columns:
+      - name: agency_id
+        description: The agency_id field contains an ID that uniquely identifies a transit agency.
+      - name: agency_name
+        description: The agency_name field contains the full name of the transit agency.
+      - name: agency_url
+        description: The agency_url field contains the URL of the transit agency's homepage.
+      - name: agency_timezone
+        description: The agency_timezone field contains the timezone where the transit agency is located.
+      - name: agency_lang
+        description: The agency_lang field contains the two-letter ISO 639-1 code for the primary language used by this transit agency.
+        

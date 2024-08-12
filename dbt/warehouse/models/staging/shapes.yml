@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: shapes
+    description: The shapes table contains information about the shapes of the routes.
+    columns:
+      - name: shape_id
+        description: The shape_id field contains an ID that identifies a shape.
+        tests:
+          - not_null
+      - name: shape_pt_seq
+        description: The shape_pt_seq field contains the sequence of the shape points.
+      - name: shape_pt_lat
+        description: The shape_pt_lat field contains the latitude of a shape point.
+      - name: shape_pt_lon
+        description: The shape_pt_lon field contains the longitude of a shape point.
