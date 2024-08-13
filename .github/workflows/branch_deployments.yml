@@ -11,7 +11,7 @@ env:
   DAGSTER_CLOUD_URL: "http://danielprod.dagster.cloud"
   DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
   ENABLE_FAST_DEPLOYS: 'true'
-  PYTHON_VERSION: '3.8'
+  PYTHON_VERSION: '3.11'
   DAGSTER_CLOUD_FILE: 'dagster_cloud.yaml'
 
 jobs:
@@ -39,7 +39,18 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
-          
+
+      - name: Parse dbt project and package with Dagster project
+        if: steps.prerun.outputs.result == 'pex-deploy'
+        run: |
+          pip install pip --upgrade
+          pip install pyopenssl --upgrade
+          pip install dbt-snowflake==1.7.2 
+          cd project-repo/dbt/warehouse
+          ls -la
+          dbt deps
+        shell: bash
+        
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
