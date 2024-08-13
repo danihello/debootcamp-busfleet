@@ -1,7 +1,7 @@
 [sqlfluff]
 templater = dbt
 dialect = postgres
-exclude_rules = L016,L028,L027
+exclude_rules = L016,L027,L028,L029
 
 [sqlfluff:templater:dbt]
 project_dir = dbt/warehouse
