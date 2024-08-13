@@ -16,5 +16,9 @@ orchestrator/assets/airbyte/__init__.py
 orchestrator/assets/airbyte/airbyte.py
 orchestrator/assets/dbt/__init__.py
 orchestrator/assets/dbt/dbt.py
+orchestrator/assets/snowflake/__init__.py
+orchestrator/assets/snowflake/snowflake.py
 orchestrator/jobs/__init__.py
+orchestrator/policies/__init__.py
 orchestrator/resources/__init__.py
+orchestrator/schedules/__init__.py

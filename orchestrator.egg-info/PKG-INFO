@@ -10,6 +10,10 @@ Requires-Dist: dagster-dbt
 Requires-Dist: dbt-core==1.7.2
 Requires-Dist: dbt-snowflake==1.7.2
 Requires-Dist: dagster_snowflake
+Requires-Dist: black==23.7.0
+Requires-Dist: sqlfluff==2.3.2
+Requires-Dist: sqlfluff-templater-dbt==2.3.2
+Requires-Dist: protobuf==4.25.3
 Provides-Extra: dev
 Requires-Dist: dagster-webserver; extra == "dev"
 Requires-Dist: pytest; extra == "dev"
