@@ -7,18 +7,18 @@ from dagster_dbt import DbtCliResource, dbt_assets
 from orchestrator.resources import dbt_warehouse_resource, dbt_project_dir
 
 
-# generate manifest
-# dbt_manifest_path = (
-#     dbt_warehouse_resource.cli(
-#         ["--quiet", "parse"],
-#         target_path=Path("target"),
-#     )
-#     .wait()
-#     .target_path.joinpath("manifest.json")
-# )
+#generate manifest
+dbt_manifest_path = (
+    dbt_warehouse_resource.cli(
+        ["--quiet", "parse"],
+        target_path=Path("target"),
+    )
+    .wait()
+    .target_path.joinpath("manifest.json")
+)
 
 # assuming manifest is in target folder of root dbt project
-dbt_manifest_path = dbt_project_dir.joinpath("target", "manifest.json")
+#dbt_manifest_path = dbt_project_dir.joinpath("target", "manifest.json")
 
 
 # create dbt asset

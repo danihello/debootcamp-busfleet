@@ -1,5 +1,4 @@
-target/*
-!target/manifest.json
+target/
 dbt_packages/
 logs/
 
