@@ -1,12 +1,12 @@
 [sqlfluff]
 templater = dbt
-dialect = snowflake
+dialect = postgres
 exclude_rules = L016,L028,L027
 
 [sqlfluff:templater:dbt]
 project_dir = dbt/warehouse
 profiles_dir = dbt/warehouse
-target = dev
+target = ci
 
 [sqlfluff:templater:jinja]
 apply_dbt_builtins = True
