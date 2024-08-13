@@ -46,7 +46,9 @@ jobs:
           pip install pip --upgrade
           pip install dbt-snowflake==1.7.2 
           pwd
-          cd /home/runner/work/debootcamp-busfleet/debootcamp-busfleet/dbt/warehouse
+          ls
+          cd dbt
+          cd warehouse
           dbt deps
           dbt parse
         shell: bash
