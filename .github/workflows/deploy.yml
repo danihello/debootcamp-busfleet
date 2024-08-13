@@ -46,11 +46,10 @@ jobs:
         if: steps.prerun.outputs.result == 'pex-deploy'
         run: |
           pip install pip --upgrade
+          pip install pyopenssl --upgrade
           pip install dbt-snowflake==1.7.2 
-          export TOP_DIR=$(git rev-parse --show-toplevel)
-          cd $TOP_DIR/dbt/warehouse
+          cd project-repo/dbt/warehouse
           dbt deps
-          dbt parse
         shell: bash
 
       - name: Python Executable Deploy
@@ -84,7 +83,7 @@ jobs:
           location: ${{ toJson(matrix.location) }}
           base_image: "python:${{ env.PYTHON_VERSION }}-slim"
           # Uncomment to pass through Github Action secrets as a JSON string of key-value pairs
-          # env_vars: ${{ toJson(secrets) }}
+          env_vars: ${{ toJson(secrets) }}
           organization_id: ${{ secrets.ORGANIZATION_ID }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
