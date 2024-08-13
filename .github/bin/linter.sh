@@ -13,6 +13,8 @@ main() {
     # Lint SQL
     sqlfluff fix -f "${TOP_DIR}"/dbt/warehouse
 
+
+
     # If the linter produce diffs, fail the linter
     if [ -z "$(git status --porcelain)" ]; then 
         echo "Working directory clean, linting passed"
