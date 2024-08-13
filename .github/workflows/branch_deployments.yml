@@ -46,11 +46,9 @@ jobs:
           pip install pip --upgrade
           pip install pyopenssl --upgrade
           pip install dbt-snowflake==1.7.2 
-          ls -la
           cd project-repo/dbt/warehouse
           ls -la
           dbt deps
-          dbt parse
         shell: bash
         
       - name: Python Executable Deploy
