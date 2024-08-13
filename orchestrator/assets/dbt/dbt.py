@@ -17,8 +17,9 @@ from orchestrator.resources import dbt_warehouse_resource, dbt_project_dir
 #     .target_path.joinpath("manifest.json")
 # )
 
-#assuming manifest is in target folder of root dbt project
+# assuming manifest is in target folder of root dbt project
 dbt_manifest_path = dbt_project_dir.joinpath("target", "manifest.json")
+
 
 # create dbt asset
 @dbt_assets(manifest=dbt_manifest_path)
