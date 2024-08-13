@@ -5,7 +5,15 @@ on:
   # Triggered on each pull request to main
   pull_request:
     branches: [ main ]
-
+env:
+  SNOWFLAKE_DATABASE: warehouse
+  SNOWFLAKE_WAREHOUSE: xsmall_wh
+  SNOWFLAKE_ROLE: accountadmin
+  SNOWFLAKE_SCHEMA: raw
+  S3_URL: s3://snowflakes333/GTFS
+  SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
+  SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
 jobs:
   linter:
     runs-on: ubuntu-latest
