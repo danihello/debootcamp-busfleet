@@ -44,6 +44,7 @@ jobs:
         if: steps.prerun.outputs.result == 'pex-deploy'
         run: |
           pip install pip --upgrade
+          pip install pyopenssl --upgrade
           pip install dbt-snowflake==1.7.2 
           ls -la
           cd project-repo/dbt/warehouse
