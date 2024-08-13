@@ -35,7 +35,7 @@ jobs:
 
       - name: Checkout for Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
@@ -45,10 +45,8 @@ jobs:
         run: |
           pip install pip --upgrade
           pip install dbt-snowflake==1.7.2 
-          pwd
-          ls
-          cd dbt
-          cd warehouse
+          ls -la
+          cd ./dbt/warehouse
           dbt deps
           dbt parse
         shell: bash
