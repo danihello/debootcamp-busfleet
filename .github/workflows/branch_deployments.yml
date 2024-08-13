@@ -46,7 +46,7 @@ jobs:
           pip install pip --upgrade
           pip install dbt-snowflake==1.7.2 
           ls -la
-          cd ./dbt/warehouse
+          cd project-repo/dbt/warehouse
           dbt deps
           dbt parse
         shell: bash
