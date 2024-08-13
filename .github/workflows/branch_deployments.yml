@@ -46,9 +46,7 @@ jobs:
           pip install pip --upgrade
           pip install dbt-snowflake==1.7.2 
           pwd
-          export TOP_DIR=$(git rev-parse --show-toplevel)
-          echo $TOP_DIR
-          cd $TOP_DIR/dbt/warehouse
+          cd /home/runner/work/debootcamp-busfleet/debootcamp-busfleet/dbt/warehouse
           dbt deps
           dbt parse
         shell: bash
