@@ -43,6 +43,14 @@ Key objectives include:
 
 4. **Dashboard Visualization**: Implement a PowerBI dashboard to visualize analytics and provide actionable insights.
 
+Questions we want to answer include:
+
+- Which bus routes delay the most?
+- Which bus routes are overcrowded?
+- At what times routes are mostly delayed?
+- At what times the routes are mostly overcrowded?
+- Which bus routes have the best availability?
+
 
 ## Solution Architecture
 ![docs/images/project_architecture.png](docs/images/project_architecture.png)
@@ -209,14 +217,19 @@ Scheduled runs:
 
 
 ### Serving
-A Preset Dashboard was created to help F1 enthusiasts answer the questions described in the [Introduction](#introduction) section. The Dashboard includes 4 tabs:
-1. Overview: describes the purpose of the dashboard and the data feeding it
-2. Driver: provides information about champion drivers, driver points and drivers classification per season
-3. Constructor: provides information about champion constructors, constructors points and constructors classification per season
-4. Circuit: relies information about race locations and most dangerous circuits
+A Power BI Dashboard was created to help answer the questions described in the [Introduction](#introduction) section. The Dashboard includes 4 tabs:
+1. statistics: focusing on key performance indicators such as frequency, crowdedness, and average delay. This in-depth analysis provides valuable insights into route efficiency and passenger experience.
+2. time trend: focusing on crowdedness, avergae delay, distance and speed per route and per day of the week.
+3. tabular data: provides information about the live trips in a tabular form for easy extraction for ad-hoc analysis
+4. live locations: shows bus locations at near real time data using information from the postgres raw trans data
 
-![images/preset-dashboard.png](images/preset-dashboard.png)
-**Figure 9**: Preset Dashboard
+
+![docs/images/dashboard.png](docs/images/dashboard.png)
+**Figure 9**: Power BI Dashboard
+
+Dashboard is currently available online except for real time data, which is not available due to the limitation of the free version of Power BI.
+
+[Dashboard](https://app.powerbi.com/view?r=eyJrIjoiNzkxMDQ0MzItNjE4Mi00ZDFhLWE4MWEtMmI3ODdlMjM0NmYxIiwidCI6IjcxYzViZWNkLWVkMWEtNDBiNy05NjdkLWE1NmQwZDYzY2QyNiIsImMiOjl9)
 
 
 ## CI/CD
@@ -228,6 +241,59 @@ GitHub Actions is used to trigger CI/CD pipeline:
 ![docs/images/CI_CD_pipeline.png](docs/images/CI_CD_pipeline.png)
 
 **Figure 10**: Example of CI/CD workflow runs
+
+## Instructions / Getting started
+
+### infrastructure
+
+This project uses AWS as the cloud provider, it dosent mean it has to be used, but it is the most convenient way to deploy the infrastructure.
+
+The infrustracture includes:
+
+1. RDS with postgres as the database
+
+2. EC2 instance with Airbyte installed
+
+3. Creting Snowflake account [get started with snowfalke](https://docs.snowflake.com/en/user-guide-getting-started)
+
+4. Creating Dagster Cloud account [sign in for free](https://docs.snowflake.com/en/user-guide-getting-started)
+
+A terraform script is provided with variables to customise the RDS and EC2 seperatly.
+The scripts are defined in the [insfrastructure](/insfrastructure/) folder.
+
+### Setting up Airbyte
+
+1. follow the instructions in the [Airbyte docs](https://docs.airbyte.com/deploying-airbyte/on-aws-ec2) to install Airbyte on your EC2 instance. Use the instruction provided in the [insfrastructure](/insfrastructure/) folder for faster deployment.
+
+2. Create a connection to your postgres database. 
+
+3. Create a connection to your Snowflake account.
+
+4. Create a custom connector to the MTA real data API,available at the [yaml files](/docs/yaml_files/) folder
+
+creating connections in airbyte includes setting ap source, destination and a connection.
+Use instructions provided at [Airbyte docs quickstart move data](https://docs.airbyte.com/using-airbyte/getting-started/oss-quickstart#3-move-data)
+
+### Get GTFS data
+
+1. Download the [GTFS static files](https://new.mta.info/developers), in this project we use manhattan but it is possible to use other areas as well.
+
+2. Create an S3 bucket and upload the GTFS files on the bucket.
+
+3. Make sure you have a connection to your S3 bucket. Please note an `S3_URL` environment variable is available to point to the location of you files on S3 bucket.
+
+4. It is highly recommended to test the queries to COPY INTO snowflake. located at [snowflake asset](/orchestrator/assets/snowflake/snowflake.py) file.
+
+### Test the pipeline
+
+Assuming you get api data and GTFS data into snowflake you can test the dbt project located at the [dbt](/dbt/warehouse/) folder. Try running the project using `dbt build` command. more information about running dbt projects can be found [here](https://docs.getdbt.com/docs/running-a-dbt-project/run-your-dbt-projects)
+
+### Deploy the pipeline
+
+Once you are satisfied with the results of the test you can deploy the pipeline to Dagster Cloud.
+
+More information about serverless deployement can be found [here](https://docs.dagster.io/dagster-plus/deployment/serverless)
+
 
 
 ## Notes on Security
