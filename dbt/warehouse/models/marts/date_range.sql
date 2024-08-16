@@ -3,6 +3,6 @@
  * This is used to determine the date range for the data in the data warehouse.
  **/
 select
-    min(trip_date) as start_date,
-    max(trip_date) as end_date
+    dateadd('day', 1, max(trip_date))::date as end_date,
+    min(trip_date) as start_date
 from {{ ref('fact_trips') }}
