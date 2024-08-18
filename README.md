@@ -78,7 +78,6 @@ This data describes the scheduling of buses in New York City.
 The GTFS entity relationship diagram is shown below.
 
 ![docs/images/GTFS-entity-relationship-diagram.png](docs/images/GTFS-entity-relationship-diagram.png)
-
 **Figure 2**: GTFS Entity Relationship Diagram
 
 More information about GTFS data sets can be found at:
@@ -99,7 +98,6 @@ In order to connect to the API, a custom connector was created to pass an API ke
 [MTA Custom Connector](./docs/yaml_files/mta_custom_connector.yaml)
 
 ![docs/images/airbyte_on_cloud.png](docs/images/airbyte_on_cloud.png)
-
 **Figure 3**: Airbyte on cloud
 
 We also use Airbyte to move the data from the PostgreSQL database to Snowflake warehouse daily using Dagster.
@@ -109,7 +107,6 @@ To load the GTFS files, we are hosting them on an S3 bucket and using Snowflake'
 We have some large GTFS files; Stop_times has almost 1 million rows. Loading all the GTFS files using dbt seed would take more than 15 minutes. Loading it using COPY INTO takes less than 10 seconds.
 
 ![docs/images/airbyte_on_cloud.png](docs/images/airbyte_on_cloud.png)
-
 **Figure 4**: Airbyte ingestion
 
 ### Storage
@@ -179,8 +176,7 @@ Before the data is loaded into the staging schema, data quality checks were perf
 Lastly, the marts schema is created performing additional transformations such as `joins`, `aggregations`,`calculations`, and `surrogate keys`.
 
 The marts schema can be represented by the following Entity Relationship Diagram (ERD):
-![docs/images/ERD.png](docs/images/ERD.png)
-
+![docs/images/Star_schema_ERD.png](docs/images/Star_schema_ERD.png)
 **Figure 5**: Marts - Entity Relationship Diagram (ERD)
 
 ### Orchestration
@@ -199,20 +195,17 @@ In this approach, Dagster is responsible for calling the Airbyte connection alon
 The Dagster Global Asset Lineage looks as follow:
 
 ![docs/images/dagster_asset_lineage.png](docs/images/dagster_asset_lineage.png)
-
 **Figure 6**: Dagster Global Asset Lineage
 
 
 Asset job run on the cloud:
 
 ![docs/images/dagster_running_on_cloud.png](docs/images/dagster_running_on_cloud.png)
-
 **Figure 7**: Dagster asset job
 
 Scheduled runs:
 
 ![docs/images/dagster_runs.png](docs/images/dagster_runs.png)
-
 **Figure 8**: Dagster asset job scheduled runs
 
 
@@ -225,7 +218,10 @@ A Power BI Dashboard was created to help answer the questions described in the [
 
 
 ![docs/images/dashboard.png](docs/images/dashboard.png)
-**Figure 9**: Power BI Dashboard
+**Figure 9**: Power BI Dashboard - Statistics
+
+![docs/images/dashboard_timetrend.png](docs/images/dashboard_timetrend.png)
+**Figure 10**: Power BI Dashboard - Time Trend
 
 Dashboard is currently available online except for real time data, which is not available due to the limitation of the free version of Power BI.
 
@@ -239,8 +235,7 @@ GitHub Actions is used to trigger CI/CD pipeline:
 - Serveless prod deployment is responsible for deploying to Dagster cloud. Pushing to the main branch will deploy to prod Serverless deployment
 
 ![docs/images/CI_CD_pipeline.png](docs/images/CI_CD_pipeline.png)
-
-**Figure 10**: Example of CI/CD workflow runs
+**Figure 11**: Example of CI/CD workflow runs
 
 ## Instructions / Getting started
 
