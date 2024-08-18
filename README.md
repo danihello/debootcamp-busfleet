@@ -53,7 +53,7 @@ Questions we want to answer include:
 
 
 ## Solution Architecture
-![docs/images/project_architecture.png](docs/images/project_architecture.png)
+![docs/images/project_line_arch.png](docs/images/project_line_arch.png)
 **Figure 1**: Solution architecture
 
 
@@ -208,6 +208,10 @@ Scheduled runs:
 ![docs/images/dagster_runs.png](docs/images/dagster_runs.png)
 **Figure 8**: Dagster asset job scheduled runs
 
+Integrating Dagater with an email to notify pipeline success status:
+
+![docs/images/dagster_email_integration.png](docs/images/dagster_email_integration.png)
+**Figure 9**: Integrating Dagater with an email to notify pipeline success status
 
 ### Serving
 A Power BI Dashboard was created to help answer the questions described in the [Introduction](#introduction) section. The Dashboard includes 4 tabs:
@@ -218,10 +222,10 @@ A Power BI Dashboard was created to help answer the questions described in the [
 
 
 ![docs/images/dashboard.png](docs/images/dashboard.png)
-**Figure 9**: Power BI Dashboard - Statistics
+**Figure 10**: Power BI Dashboard - Statistics
 
 ![docs/images/dashboard_timetrend.png](docs/images/dashboard_timetrend.png)
-**Figure 10**: Power BI Dashboard - Time Trend
+**Figure 11**: Power BI Dashboard - Time Trend
 
 Dashboard is currently available online except for real time data, which is not available due to the limitation of the free version of Power BI.
 
@@ -235,7 +239,7 @@ GitHub Actions is used to trigger CI/CD pipeline:
 - Serveless prod deployment is responsible for deploying to Dagster cloud. Pushing to the main branch will deploy to prod Serverless deployment
 
 ![docs/images/CI_CD_pipeline.png](docs/images/CI_CD_pipeline.png)
-**Figure 11**: Example of CI/CD workflow runs
+**Figure 12**: Example of CI/CD workflow runs
 
 ## Instructions / Getting started
 
